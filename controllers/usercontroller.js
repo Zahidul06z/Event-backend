@@ -4,9 +4,13 @@ import jwt from 'jsonwebtoken'
 import { blacklistedTokens } from "../config/auth/passport.js";
 import Order from "../models/orderModel.js";
 import Credential from "../models/credentialModel.js";
+import dbConnected from "../config/db/dbConnecte.js";
 
 const userRegistration = async(req,res) =>{
-    try {
+    try{
+       
+        dbConnected()
+        
         const {name,email,password } = req.body;
         
         const user = await User.findOne({email : email});
@@ -52,6 +56,9 @@ const userRegistration = async(req,res) =>{
 
 const userLogin = async(req,res)=>{
     try {
+
+        dbConnected()
+
         const {email,password} = req.body;
         
         const user = await User.findOne({ email });
@@ -90,6 +97,9 @@ const userLogin = async(req,res)=>{
 
 const userLogout = async(req,res)=>{
     try {
+
+        dbConnected()
+
         const authHeader = req.headers.authorization;
         if (!authHeader || !authHeader.startsWith('Bearer ')) {
           return res.status(401).json({
@@ -117,6 +127,9 @@ const userLogout = async(req,res)=>{
 
 const  userProfile = async(req,res)=>{
     try {
+
+        dbConnected()
+
         const {id} = req.params;
 
         const user = await User.findById(id).select('-password') || await Credential.findById(id).select('-password');
@@ -139,6 +152,8 @@ const  userProfile = async(req,res)=>{
 
 const getOrderProduct = async(req,res)=>{
     try {
+
+        dbConnected()
 
         const {id} = req.params;
 
@@ -168,6 +183,9 @@ const getOrderProduct = async(req,res)=>{
 
 const userLoginGoogle = async (req, res) => {
   try {
+
+    dbConnected()
+
     const user = req.user;
     if (!user) {
       return res.status(400).send('User not found');
@@ -182,7 +200,7 @@ const userLoginGoogle = async (req, res) => {
     const getToken = 'Bearer ' + token;
 
     // Redirect to frontend with token
-    res.redirect(`http://localhost:5173/auth?token=${getToken}&_id=${user?._id}&name=${user?.name}&email=${user?.email}&role=${user.role}`);
+    res.redirect(`https://event-frontend-weld.vercel.app/auth?token=${getToken}&_id=${user?._id}&name=${user?.name}&email=${user?.email}&role=${user.role}`);
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');

@@ -3,9 +3,13 @@ import path from 'path';
 import Blog from "../models/blogModel.js";
 import User from "../models/userModel.js";
 import Credential from '../models/credentialModel.js';
+import dbConnected from '../config/db/dbConnecte.js';
 
 const createBlog = async (req,res)=>{
     try {
+
+        await dbConnected()
+
         const userId = req.params.id;
         const {description,title} = req.body;
         const videos = req.files?.video?.[0];
@@ -73,6 +77,8 @@ const createBlog = async (req,res)=>{
 
 const getBLog = async(req,res)=>{
     try {
+
+        await dbConnected()
       
         const blog = await Blog.find({}).sort({createdAt : -1})
 
@@ -95,6 +101,8 @@ const getBLog = async(req,res)=>{
 
 const getSingleBLog = async(req,res)=>{
     try {
+
+        await dbConnected()
         
         const blogId = req.params.id
 
@@ -118,6 +126,9 @@ const getSingleBLog = async(req,res)=>{
 
 const deleteBlog = async(req,res)=>{
     try {
+
+        await dbConnected()
+
         const blogId = req.params.id;
         const adminId = req.user._id;
 
@@ -198,6 +209,8 @@ const deleteBlog = async(req,res)=>{
 
 const commentBlog = async(req,res)=>{
     try {
+
+        await dbConnected()
 
         const {comment} = req.body;
         const {userId,blogId} = req.params

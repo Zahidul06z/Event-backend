@@ -9,6 +9,8 @@ import dbConnected from '../config/db/dbConnecte.js';
 const createProduct = async(req,res)=>{
     try {
 
+        await dbConnected()
+
         const adminId = req.params.id;
 
         const {title,price,description,category,stock} = req.body;
@@ -108,6 +110,9 @@ const getProduct = async(req,res)=>{
 
 const getSingleProduct = async (req,res) =>{
     try {
+
+        await dbConnected()
+
         const {productID} = req.params;
 
         const product =  await Product.findById(productID)
@@ -134,6 +139,9 @@ const getSingleProduct = async (req,res) =>{
 
 const deleteProduct = async(req,res)=>{
     try {
+
+        await dbConnected()
+
         const productId = req.params.id;
         const adminId = req.user._id;
 
@@ -192,6 +200,9 @@ const deleteProduct = async(req,res)=>{
 
 const ratingreviewsProduct = async(req,res)=>{
     try {
+
+        await dbConnected()
+
         const userId = req.user._id;
         const {productId} = req.params
 
@@ -241,6 +252,9 @@ const ratingreviewsProduct = async(req,res)=>{
 
 const basedOnRated = async(req,res)=>{
     try {
+
+        await dbConnected()
+
         const topRatedProduct = await Product.find({average : {$gte : 3}}).sort({average : -1});
 
         if(!topRatedProduct){
@@ -261,6 +275,9 @@ const basedOnRated = async(req,res)=>{
 
 const  filterProduct = async(req,res) =>{
     try {
+
+        await dbConnected()
+
         const value1 = req.query.first;
         const value2 = req.query.second;
 

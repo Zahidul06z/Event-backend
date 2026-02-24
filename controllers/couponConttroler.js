@@ -1,3 +1,4 @@
+import dbConnected from "../config/db/dbConnecte.js";
 import Coupon from "../models/couponModels.js";
 import Credential from "../models/credentialModel.js";
 import User from "../models/userModel.js";
@@ -5,6 +6,9 @@ import cron from "node-cron";
 
 const addCoupon = async (req, res) => {
   try {
+
+    await dbConnected()
+
     const { id } = req.params;
     const { coupon, discount, expiresAt } = req.body;
 
@@ -64,6 +68,9 @@ const addCoupon = async (req, res) => {
 
 const couponApply = async (req, res) => {
   try {
+
+    await dbConnected()
+
     const { coupon } = req.body;
 
     const getCoupon = await Coupon.findOne({ coupon }); 

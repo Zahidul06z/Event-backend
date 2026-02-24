@@ -1,8 +1,12 @@
+import dbConnected from "../config/db/dbConnecte.js";
 import Story from "../models/ourstoryModel.js";
 import User from "../models/userModel.js";
 
 const createStory = async(req,res)=>{
     try {
+
+        dbConnected()
+
         const userId = req.params.id;
         const {description} = req.body;
         const videos = req.files?.video?.[0];
@@ -68,6 +72,8 @@ const createStory = async(req,res)=>{
 const getStory = async(req,res)=>{
     try {
       
+        dbConnected()
+
         const blog = await Story.find({}).sort({createdAt : -1})
         return res.status(201).send(blog)
 
@@ -83,6 +89,9 @@ const getStory = async(req,res)=>{
 
 const deleteStory = async(req,res)=>{
     try {
+
+        dbConnected()
+
         const storyId = req.params.id;
         const adminId = req.user._id;
 

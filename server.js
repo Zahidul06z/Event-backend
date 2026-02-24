@@ -85,5 +85,5 @@ export default app;
 
 
 // git branch -M main
-// git remote add origin https://github.com/Zahidul06z/Event-backend.git
+// git remote add origin https://github.com/Zahidul06z/Event-frontend.git
 // git push -u origin main

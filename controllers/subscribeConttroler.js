@@ -3,11 +3,15 @@ import User from "../models/userModel.js";
 import transporter from '../config/middleware/nodemailer.js';
 import dotenv from 'dotenv'
 import Credential from "../models/credentialModel.js";
+import dbConnected from "../config/db/dbConnecte.js";
 
 dotenv.config()
 
 const addSubsciberMail = async(req,res)=>{
     try {
+
+        dbConnected()
+
         const {id} = req.params;
 
         const {email} = req.body
@@ -52,7 +56,10 @@ const addSubsciberMail = async(req,res)=>{
 }
 
 const getAllMail = async(req,res)=>{
-    try {
+    try{
+       
+        dbConnected()
+        
         const subsCriber = await Subscribe.find({})
         if(!subsCriber){
             return res.status(404).json({error : "User not found"})
@@ -69,6 +76,9 @@ const getAllMail = async(req,res)=>{
 
 const sendMailAllSubscriber = async(req,res)=>{
     try {
+
+        dbConnected()
+
         const {id} = req.params;
 
         const user = await User.findById(id);

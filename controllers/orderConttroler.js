@@ -6,6 +6,7 @@ import transporter from '../config/middleware/nodemailer.js';
 import generateOrderEmailHTML from '../config/middleware/nodeMailerHTMLfile.js';
 import Credential from '../models/credentialModel.js';
 import dotenv from 'dotenv';
+import dbConnected from '../config/db/dbConnecte.js';
 
 dotenv.config()
 
@@ -13,7 +14,9 @@ const SSLCommerzPayment = sslcommerz;
 
 const cashOnDelivary = async (req,res) =>{
     try {
-        
+      
+      await dbConnected()
+
         const customerId = req.params.id;
         const {coustomerInfo,paymentMethod,delivaryCharge,productInfo} = req.body;
 
@@ -140,6 +143,8 @@ const cashOnDelivary = async (req,res) =>{
 const getCodOrderProduct = async(req,res) =>{
   try {
     
+    await dbConnected()
+
     const orderId = req.params.id;
     const userId = req.user._id;
 
@@ -180,6 +185,9 @@ const generateTransactionId = () => {
 
 const paymentSslcommerz = async (req,res) =>{
      try {
+
+      await dbConnected()
+
         const customerId = req.params.id;
         const {coustomerInfo,paymentMethod,delivaryCharge,productInfo} = req.body;
         const customer = await User.findById(customerId) || await Credential.findById(customerId);
@@ -301,6 +309,9 @@ const paymentSslcommerz = async (req,res) =>{
 
 const paymentSuccess =  async (req, res) => {
   try {
+
+    await dbConnected()
+
     const { tran_id, val_id } = req.body;
     
     // Validate payment with SSLCommerz
@@ -383,6 +394,9 @@ const paymentSuccess =  async (req, res) => {
 
 const paymentFail = async (req, res) => {
   try {
+
+    await dbConnected()
+
     const { tran_id } = req.body;
     
     await Order.findOneAndUpdate(
@@ -399,6 +413,9 @@ const paymentFail = async (req, res) => {
 
 const paymentCancle =  async (req, res) => {
   try {
+
+    await dbConnected()
+
     const { tran_id } = req.body;
     
     await Order.findOneAndUpdate(
@@ -415,6 +432,9 @@ const paymentCancle =  async (req, res) => {
 
 const ipnNotification =  async (req, res) => {
   try {
+
+    await dbConnected()
+
     const { tran_id, status, val_id } = req.body;
     
     if (status === 'VALID') {
@@ -443,6 +463,9 @@ const ipnNotification =  async (req, res) => {
 
 const paymentStatus =  async (req, res) => {
   try {
+
+    await dbConnected()
+
     const { transactionId } = req.params;
     const payment = await Order.findOne({ transactionId });
     
@@ -472,6 +495,9 @@ const paymentStatus =  async (req, res) => {
 
 const productTrack = async (req,res) =>{
   try {
+
+    await dbConnected()
+
     const {id} = req.params;
 
     const trackProduct = await Order.findById(id);
@@ -501,6 +527,9 @@ const productTrack = async (req,res) =>{
 
 const setOrderStatus = async (req,res) =>{
   try {
+
+    await dbConnected()
+
     const {id} = req.params;
     const userId = req.user._id;
     const {title,description} = req.body;
