@@ -1,7 +1,7 @@
 import express from 'express'
 import dotenv from 'dotenv';
 import cors from 'cors'
-import dbConnected from './config/db/dbConnecte.js';
+// import dbConnected from './config/db/dbConnecte.js';
 import userRoute from './routers/userRoute.js'
 import productRoute from './routers/productRoute.js'
 import blogRoute from './routers/blogRoute.js'
@@ -64,7 +64,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 //     dbConnected();
 // });
 
-module.exports = app
+export default app;
 
 
  

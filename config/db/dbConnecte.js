@@ -1,21 +1,24 @@
 import mongoose from "mongoose";
 
-// let isConnected = false
+let isConnected = false;
 
 const dbConnected = async () => {
-    try {
-        const conn = await mongoose.connect(process.env.DB_URL, {
-            // useNewUrlParser: true,
-            // useUnifiedTopology: true,
-        });
+  if (isConnected) {
+    return;
+  }
 
-        // isConnected = true;
+  try {
+    const conn = await mongoose.connect(process.env.DB_URL);
 
-        console.log(`✅ DB Connected: ${conn.connection.host}:${conn.connection.port}`);
-    } catch (error) {
-        console.error("❌ DB Connection Error:", error.message);
-        process.exit(1); // Optional: exit process on DB failure
-    }
+    isConnected = conn.connections[0].readyState === 1;
+
+    console.log(
+      `✅ DB Connected: ${conn.connection.host}:${conn.connection.port}`
+    );
+  } catch (error) {
+    console.error("❌ DB Connection Error:", error.message);
+    throw new Error("Database connection failed"); // ✅ don't exit
+  }
 };
 
 export default dbConnected;
