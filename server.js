@@ -27,10 +27,17 @@ const __dirname = path.dirname(__filename);
 // ✅ Correctly apply middleware
 app.use(express.urlencoded({ extended: true, limit: '500mb' }));
 app.use(express.json({ limit: '500mb' }));
-app.use(cors({
-  origin: process.env.FRONTEND_URL,
-  credentials: true,
-}));
+// app.use(cors({
+//   origin: process.env.FRONTEND_URL,
+//   credentials: true,
+// }));
+
+app.use(
+  cors({
+    origin: true, // allow all origins (safe for development)
+    credentials: true,
+  })
+);
 
 
 app.use(session({
@@ -47,6 +54,14 @@ app.use(passport.session());
 
 // ✅ API routes
 
+// 🔥 Home Route
+app.get("/", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "🚀 Backend is running successfully",
+  });
+});
+
 //Middleware
 app.use('/api/users', userRoute);
 app.use('/api/products',productRoute)
@@ -56,7 +71,10 @@ app.use('/api/orders',orderRoute)
 app.use('/api/subscribe',subscribeRoute)
 app.use('/api/coupons',couponRoute)
 
+
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+
 
 // ✅ Start server and connect DB
 // app.listen(PORT, () => {
