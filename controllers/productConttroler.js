@@ -4,6 +4,7 @@ import Product from "../models/productModel.js";
 import User from "../models/userModel.js";
 import { error } from 'console';
 import Credential from '../models/credentialModel.js';
+import dbConnected from '../config/db/dbConnecte.js';
 
 const createProduct = async(req,res)=>{
     try {
@@ -61,6 +62,9 @@ const createProduct = async(req,res)=>{
 
 const getProduct = async(req,res)=>{
     try {
+
+        await dbConnected()
+
         const {category} = req.params;
        
         const filter = category === 'all' ? {} : { category };
