@@ -39,7 +39,6 @@ app.use(
   })
 );
 
-
 app.use(session({
   secret: '12345678', // use a strong secret and store in env
   resave: false,
@@ -85,4 +84,3 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 export default app;
 
 
- 
