@@ -128,7 +128,7 @@ const cashOnDelivary = async (req,res) =>{
 
       return res.status(201).json({
               message: "Order created successfully",
-              redirectUrl: `${process.env.FRONTEND_URL}/order-success/${newOrder._id}`,})
+              redirectUrl: `https://event-frontend-weld.vercel.app/order-success/${newOrder._id}`,})
 
     } catch (error) {
         console.error("Error:", error);
