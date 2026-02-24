@@ -184,7 +184,7 @@ const getOrderProduct = async(req,res)=>{
 const userLoginGoogle = async (req, res) => {
   try {
 
-    dbConnected()
+    await dbConnected()
 
     const user = req.user;
     if (!user) {
@@ -203,7 +203,7 @@ const userLoginGoogle = async (req, res) => {
     res.redirect(`https://event-frontend-weld.vercel.app/auth?token=${getToken}&_id=${user?._id}&name=${user?.name}&email=${user?.email}&role=${user.role}`);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    res.status(500).send('Internal Server Error from here');
   }
 };
 
